@@ -20,13 +20,14 @@ A multi-tenant SaaS platform enabling dental clinics to automate appointment boo
 ## 3. Core Features
 
 ### 3.1 IVR Phone System
-- Configurable welcome message per clinic
-- Menu options (configurable by clinic):
+- **Language selection** - First prompt: "Welcome to [Clinic Name]. To continue in English, press 1. മലയാളത്തില്‍ തുടരാന്‍ രണ്ട് അമര്‍ത്തുക." (Press 1 for English, 2 for Malayalam)
+- Multi-language support: English and Malayalam
+- Menu options (configurable by clinic, after language selection):
   - Press 1: Book appointment
   - Press 2: Cancel/Reschedule
   - Press 3: Clinic hours
   - Press 4: Speak to receptionist
-- Collect caller phone number via keypad
+- **Automatic phone number capture** via Caller ID - no typing needed
 - Transfer to WhatsApp flow for booking completion
 
 ### 3.2 WhatsApp Booking Bot
@@ -69,6 +70,9 @@ A multi-tenant SaaS platform enabling dental clinics to automate appointment boo
 - **Phone API:** Twilio or Telnyx (free trial)
 - **WhatsApp:** WhatsApp Business API
 - **Admin UI:** React (or simple HTML/JS)
+- **Voice/TTS:** 
+  - For Malayalam: Google Cloud Text-to-Speech (has Malayalam voices) or Eleven Labs (custom voice)
+  - For English: Twilio TTS or Google Cloud TTS
 
 ## 6. API Endpoints
 
@@ -88,16 +92,17 @@ A multi-tenant SaaS platform enabling dental clinics to automate appointment boo
 
 ### Booking Flow
 1. Customer calls clinic phone number
-2. Telnyx/Twilio hits `/webhook/phone`
-3. Server returns IVR menu (TwiML)
-4. Customer presses 1
-5. Server returns "Enter your phone number"
-6. Customer enters number
-7. Server saves booking request, returns "Check WhatsApp"
-8. Server sends WhatsApp message to that number
-9. Customer replies with name + time
-10. Server parses, creates appointment, confirms via WhatsApp
-11. Appointment appears in Admin Panel
+2. System automatically captures caller's phone number via Caller ID
+3. Telnyx/Twilio hits `/webhook/phone` with caller number
+4. Server returns: "Welcome to [Clinic Name]. To continue in English, press 1. മലയാളത്തില്‍ തുടരാന്‍ രണ്ട് അമര്‍ത്തുക."
+5. Customer presses 1 (English) or 2 (Malayalam)
+6. Server returns main menu in selected language
+7. Customer presses 1 (Book appointment)
+8. System already has phone number - sends "Check WhatsApp to confirm booking"
+9. Server sends WhatsApp message to that number
+10. Customer replies with name + time
+11. Server parses, creates appointment, confirms via WhatsApp
+12. Appointment appears in Admin Panel
 
 ## 8. Future Considerations (Out of Scope)
 - Payment integration
