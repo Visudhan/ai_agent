@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dental AI - Admin Panel</title>
+  <style>
+    body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+    h1 { color: #2c3e50; }
+    .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+    input, button { padding: 10px; margin: 5px 0; }
+    button { background: #3498db; color: white; border: none; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Dental AI Admin Panel</h1>
+  
+  <div class="section" id="login-section">
+    <h2>Clinic Login</h2>
+    <input type="text" id="apiKey" placeholder="Enter API Key" style="width: 300px;">
+    <button onclick="login()">Login</button>
+  </div>
+  
+  <div class="section" id="appointments-section" style="display:none;">
+    <h2>Appointments</h2>
+    <button onclick="loadAppointments()">Refresh</button>
+    <table id="appointments-table">
+      <thead><tr><th>Patient</th><th>Phone</th><th>Date/Time</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  
+  <div class="section" id="settings-section" style="display:none;">
+    <h2>IVR Settings</h2>
+    <input type="text" id="clinicName" placeholder="Clinic Name" style="width: 300px;">
+    <button onclick="saveSettings()">Save Settings</button>
+  </div>
+  
+  <script src="admin.js"></script>
+</body>
+</html>
