@@ -8,7 +8,7 @@ function handleIncomingMessage(from, message) {
       `SELECT * FROM patients WHERE phone = ? ORDER BY created_at DESC LIMIT 1`,
       [phone],
       (err, patient) => {
-        if (patient) {
+        if (patient && patient.name !== 'PENDING') {
           resolve(handleBookingRequest(patient, message));
         } else {
           resolve(askForName(phone, message, 1));

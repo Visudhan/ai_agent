@@ -147,14 +147,18 @@ app.post('/webhook/phone/menu', (req, res) => {
   }
 });
 
-app.post('/webhook/whatsapp', (req, res) => {
+app.post('/webhook/whatsapp', async (req, res) => {
   // Twilio sends form-urlencoded data
   const from = req.body.From || req.body.from;
   const message = req.body.Body || req.body.body;
-  handleIncomingMessage(from, message).then(response => {
-    console.log('WhatsApp response:', response);
-    res.send('<Response></Response>');
-  });
+  const response = await handleIncomingMessage(from, message);
+  console.log('WhatsApp response:', response);
+  
+  // Send reply back via WhatsApp
+  const phone = from.replace('whatsapp:', '');
+  await sendWhatsAppMessage(phone, response);
+  
+  res.send('<Response></Response>');
 });
 
 app.get('/api/appointments', authenticateClinic, (req, res) => {
