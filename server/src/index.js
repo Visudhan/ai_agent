@@ -32,6 +32,7 @@ const publicPath = path.resolve('public');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
 const VALID_STATUSES = ['pending', 'confirmed', 'cancelled', 'completed'];
@@ -147,8 +148,9 @@ app.post('/webhook/phone/menu', (req, res) => {
 });
 
 app.post('/webhook/whatsapp', (req, res) => {
-  const from = req.body.From;
-  const message = req.body.Body;
+  // Twilio sends form-urlencoded data
+  const from = req.body.From || req.body.from;
+  const message = req.body.Body || req.body.body;
   handleIncomingMessage(from, message).then(response => {
     console.log('WhatsApp response:', response);
     res.send('<Response></Response>');
