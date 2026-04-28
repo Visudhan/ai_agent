@@ -15,11 +15,15 @@ async function sendWhatsAppMessage(to, message) {
     return;
   }
   try {
+    // Use sandbox number for sending (or your Twilio number)
+    // Default to sandbox number +14155238886 since that's what's enabled
+    const fromNumber = '+14155238886';
     await twilioClient.messages.create({
-      from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER || '+14155238886'}`,
+      from: `whatsapp:${fromNumber}`,
       to: `whatsapp:${to}`,
       body: message
     });
+    console.log('WhatsApp sent to:', to, 'message:', message);
   } catch (err) {
     console.error('WhatsApp send error:', err.message);
   }
